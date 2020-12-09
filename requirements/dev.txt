@@ -1,0 +1,8 @@
+-r base.txt
+flake8==3.6.0
+ipdb
+model_bakery
+pytest
+pytest-cov
+pytest-django
+pytest-flake8
