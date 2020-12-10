@@ -11,8 +11,7 @@ class CreatePiecesTestCase(APITestCase):
 
     def setUp(self):
         self.data = {
-            'piece_type': 'knight',
-            'name': 'knight test',
+            'name': 'knight',
             'color': 'black',
         }
 
@@ -43,7 +42,6 @@ class PiecesDetailTestCase(APITestCase):
     def setUp(self):
         self.piece = baker.make(
             Pieces,
-            piece_type='bishop',
             name='bishop',
             color='white',
         )
@@ -59,13 +57,11 @@ class PiecesDetailTestCase(APITestCase):
         expected_response = {
             'name': 'bishop',
             'color': 'white',
-            'piece_type': 'bishop',
         }
         self.assertEqual(set(response.data), set(expected_response))
 
     def test_update_piece(self):
         new_data = {
-            'piece_type': 'bishop',
             'name': 'bishop',
             'color': 'black',
         }
