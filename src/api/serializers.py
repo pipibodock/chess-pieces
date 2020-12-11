@@ -6,7 +6,7 @@ from pieces.models import Pieces
 class PiecesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pieces
-        fields = ['name', 'color']
+        fields = ['id', 'name', 'color']
 
     def create(self, validated_data):
         piece = Pieces.objects.create(**validated_data)
