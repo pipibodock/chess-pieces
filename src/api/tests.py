@@ -36,6 +36,13 @@ class ListPiecesTestCase(APITestCase):
         response = self.client.get(reverse('pieces'))
         self.assertEqual(len(response.data), 5)
 
+    def test_list_piece_for_name(self):
+        baker.make(Pieces, name='bishop', color='white')
+        baker.make(Pieces, name='knight', color='white')
+        url = reverse('pieces') + '?name=bishop&color=white'
+        response = self.client.get(url)
+        self.assertEqual(len(response.data), 1)
+
 
 class PiecesDetailTestCase(APITestCase):
 
@@ -55,6 +62,7 @@ class PiecesDetailTestCase(APITestCase):
     def test_get_piece_detail(self):
         response = self.client.get(reverse('piece', args=[self.piece.pk]))
         expected_response = {
+            'id': 1,
             'name': 'bishop',
             'color': 'white',
         }
