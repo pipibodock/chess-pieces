@@ -1,8 +1,10 @@
 ---
-postgress:
+postgres:
   image: postgres:latest
   ports:
     - "5432:5432"
   environment:
-    - POSTGRES_HOST_AUTH_METHOD=trust
+    POSTGRES_PASSWORD: chess
+    POSTGRES_DB: chess
+    POSTGRES_USER: postgres
   restart: "always"
