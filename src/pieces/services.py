@@ -30,7 +30,7 @@ class GetListMovementsService:
             self._calculate_first_turn()
             self._calculate_seccond_turn()
             return self.results
-        return 'Piece is not a knight'
+        return {'message': 'Piece is not a knight'}
 
     def _is_knight(self):
         try:

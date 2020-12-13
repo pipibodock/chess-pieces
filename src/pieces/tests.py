@@ -44,7 +44,7 @@ class GetListMovimentsServiceTestCase(TestCase):
     def test_list_moviments_return_message_if_not_knight(self):
         bishop = baker.make(Pieces, name='bishop', color='black')
         service = GetListMovementsService(bishop.id, 'b8')
-        mensagem_esperada = 'Piece is not a knight'
+        mensagem_esperada = {'message': 'Piece is not a knight'}
         self.assertEqual(service.get_list_movements(), mensagem_esperada)
 
     def test_get_list_movements_to_knight_first_turn_b8(self):
