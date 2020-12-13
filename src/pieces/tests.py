@@ -50,17 +50,69 @@ class GetListMovimentsServiceTestCase(TestCase):
     def test_get_list_movements_to_knight_first_turn_b8(self):
         service = GetListMovementsService(self.piece.id, 'b8')
         response = service.get_list_movements()
-        self.assertListEqual(response, ['c6', 'd7', 'a6'])
+        self.assertListEqual(response['first_turn'], ['c6', 'd7', 'a6'])
 
     def test_get_list_movements_to_knight_first_turn_cell_d5(self):
         service = GetListMovementsService(self.piece.id, 'd5')
         response = service.get_list_movements()
         self.assertListEqual(
-            response,
+            response['first_turn'],
             ['e3', 'f4', 'f6', 'e7', 'c7', 'b6', 'b4', 'c3']
         )
 
     def test_get_list_movements_to_knight_first_turn_cell_h1(self):
         service = GetListMovementsService(self.piece.id, 'h1')
         response = service.get_list_movements()
-        self.assertListEqual(response, ['g3', 'f2'])
+        self.assertListEqual(response['first_turn'], ['g3', 'f2'])
+
+    def test_get_list_movements_to_knight_seccond_turn_start_b8(self):
+        service = GetListMovementsService(self.piece.id, 'b8')
+        response = service.get_list_movements()
+        self.assertDictEqual(
+            response['seccond_turn'],
+            {
+                'c6': ['d4', 'e5', 'e7', 'd8', 'b8', 'a7', 'a5', 'b4'],
+                'd7': ['e5', 'f6', 'f8', 'b8', 'b6', 'c5'],
+                'a6': ['b4', 'c5', 'c7', 'b8']
+            }
+        )
+
+    def test_get_list_movements_to_knight_seccond_turn_start_h1(self):
+        service = GetListMovementsService(self.piece.id, 'h1')
+        response = service.get_list_movements()
+        self.assertDictEqual(
+            response['seccond_turn'],
+            {
+                'g3': ['h1', 'h5', 'f5', 'e4', 'e2', 'f1'],
+                'f2': ['h1', 'h3', 'g4', 'e4', 'd3', 'd1'],
+            }
+        )
+
+    def test_get_all_list_movements_start_b8(self):
+        service = GetListMovementsService(self.piece.id, 'b8')
+        response = service.get_list_movements()
+        self.assertDictEqual(
+            response,
+            {
+                'first_turn': ['c6', 'd7', 'a6'],
+                'seccond_turn': {
+                    'c6': ['d4', 'e5', 'e7', 'd8', 'b8', 'a7', 'a5', 'b4'],
+                    'd7': ['e5', 'f6', 'f8', 'b8', 'b6', 'c5'],
+                    'a6': ['b4', 'c5', 'c7', 'b8']
+                }
+            }
+        )
+
+    def test_get_all_list_movements_start_h1(self):
+        service = GetListMovementsService(self.piece.id, 'h1')
+        response = service.get_list_movements()
+        self.assertDictEqual(
+            response,
+            {
+                'first_turn': ['g3', 'f2'],
+                'seccond_turn': {
+                    'g3': ['h1', 'h5', 'f5', 'e4', 'e2', 'f1'],
+                    'f2': ['h1', 'h3', 'g4', 'e4', 'd3', 'd1'],
+                }
+            }
+        )
