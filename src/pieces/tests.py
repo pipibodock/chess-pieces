@@ -77,6 +77,23 @@ class GetListMovimentsServiceTestCase(TestCase):
             }
         )
 
+    def test_get_list_movements_to_knight_seccond_turn_start_d5(self):
+        service = GetListMovementsService(self.piece.id, 'd5')
+        response = service.get_list_movements()
+        self.assertDictEqual(
+            response['seccond_turn'],
+            {
+                'e3': ['f1', 'g2', 'g4', 'f5', 'd5', 'c4', 'c2', 'd1'],
+                'f4': ['g2', 'h3', 'h5', 'g6', 'e6', 'd5', 'd3', 'e2'],
+                'f6': ['g4', 'h5', 'h7', 'g8', 'e8', 'd7', 'd5', 'e4'],
+                'e7': ['f5', 'g6', 'g8', 'c8', 'c6', 'd5'],
+                'c7': ['d5', 'e6', 'e8', 'a8', 'a6', 'b5'],
+                'b6': ['c4', 'd5', 'd7', 'c8', 'a8', 'a4'],
+                'b4': ['c2', 'd3', 'd5', 'c6', 'a6', 'a2'],
+                'c3': ['d1', 'e2', 'e4', 'd5', 'b5', 'a4', 'a2', 'b1'],
+            }
+        )
+
     def test_get_list_movements_to_knight_seccond_turn_start_h1(self):
         service = GetListMovementsService(self.piece.id, 'h1')
         response = service.get_list_movements()
@@ -99,6 +116,26 @@ class GetListMovimentsServiceTestCase(TestCase):
                     'c6': ['d4', 'e5', 'e7', 'd8', 'b8', 'a7', 'a5', 'b4'],
                     'd7': ['e5', 'f6', 'f8', 'b8', 'b6', 'c5'],
                     'a6': ['b4', 'c5', 'c7', 'b8']
+                }
+            }
+        )
+
+    def test_get_all_list_movements_start_d5(self):
+        service = GetListMovementsService(self.piece.id, 'd5')
+        response = service.get_list_movements()
+        self.assertDictEqual(
+            response,
+            {
+                'first_turn': ['e3', 'f4', 'f6', 'e7', 'c7', 'b6', 'b4', 'c3'],
+                'seccond_turn': {
+                    'e3': ['f1', 'g2', 'g4', 'f5', 'd5', 'c4', 'c2', 'd1'],
+                    'f4': ['g2', 'h3', 'h5', 'g6', 'e6', 'd5', 'd3', 'e2'],
+                    'f6': ['g4', 'h5', 'h7', 'g8', 'e8', 'd7', 'd5', 'e4'],
+                    'e7': ['f5', 'g6', 'g8', 'c8', 'c6', 'd5'],
+                    'c7': ['d5', 'e6', 'e8', 'a8', 'a6', 'b5'],
+                    'b6': ['c4', 'd5', 'd7', 'c8', 'a8', 'a4'],
+                    'b4': ['c2', 'd3', 'd5', 'c6', 'a6', 'a2'],
+                    'c3': ['d1', 'e2', 'e4', 'd5', 'b5', 'a4', 'a2', 'b1'],
                 }
             }
         )

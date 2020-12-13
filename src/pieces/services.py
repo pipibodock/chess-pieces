@@ -17,9 +17,6 @@ class GetListMovementsService:
     ROW = ['8', '7', '6', '5', '4', '3', '2', '1']
     COL = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
-    KNIGHT_ROW_MOVE = [2, 1, -1, -2, -2, -1, 1, 2, 2]
-    KNIGHT_COL_MOVE = [1, 2, 2, 1, -1, -2, -2, -1, 1]
-
     def __init__(self, piece_id, cell):
         self.piece_id = piece_id
         self.cell = cell
@@ -27,8 +24,8 @@ class GetListMovementsService:
 
     def get_list_movements(self):
         if self._is_knight():
-            self._calculate_first_turn()
-            self._calculate_seccond_turn()
+            self._first_turn()
+            self._seccond_turn()
             return self.results
         return {'message': 'Piece is not a knight'}
 
@@ -40,34 +37,41 @@ class GetListMovementsService:
         except Pieces.DoesNotExist:
             return False
 
-    def _calculate_first_turn(self):
-        moves = []
+    def _first_turn(self):
         start_col = self.COL.index(self.cell[0])
         start_row = self.ROW.index(self.cell[1])
-        # 8 is quantity possible movements to knight
-        for i in range(8):
-            new_row = start_row + self.KNIGHT_ROW_MOVE[i]
-            new_col = start_col + self.KNIGHT_COL_MOVE[i]
-            if self._in_board(new_row, new_col):
-                moves.append(self.BOARD[new_row][new_col])
+        moves = self._calculate(start_row, start_col)
         self.results['first_turn'] = moves
 
-    def _calculate_seccond_turn(self):
+    def _seccond_turn(self):
         moves = {}
         for cell in self.results['first_turn']:
-            moves[cell] = []
             start_col = self.COL.index(cell[0])
             start_row = self.ROW.index(cell[1])
-            # 8 is quantity possible movements to knight
-            for i in range(8):
-                new_row = start_row + self.KNIGHT_ROW_MOVE[i]
-                new_col = start_col + self.KNIGHT_COL_MOVE[i]
-                if self._in_board(new_row, new_col):
-                    moves[cell].append(self.BOARD[new_row][new_col])
+            list_moves = self._calculate(start_row, start_col)
+            moves[cell] = list_moves
         self.results['seccond_turn'] = moves
 
+    def _calculate(self, start_row, start_col):
+        knight_moves = [
+            (2, 1),
+            (1, 2),
+            (-1, 2),
+            (-2, 1),
+            (-2, -1),
+            (-1, -2),
+            (1, -2),
+            (2, -1),
+        ]
+        moves = []
+        for move in knight_moves:
+            new_row = start_row + move[0]
+            new_col = start_col + move[1]
+            if self._in_board(new_row, new_col):
+                moves.append(self.BOARD[new_row][new_col])
+        return moves
+
     def _in_board(self, row, col):
-        # 8 is the length of board is possible be dinamic
         if (row < 0 or col < 0 or row >= 8 or col >= 8):
             return False
         return True
